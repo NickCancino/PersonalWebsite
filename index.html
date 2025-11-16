@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Website</title>
+  <link rel="stylesheet" href="stylesheet.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Stack+Sans+Headline:wght@200..700&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/e4657a4b31.js" crossorigin="anonymous"></script>
+
+</head>
+
+
+<body>
+  <header>
+
+    <nav class="navbar">
+      <p class="navname">Nicolas Cancino</p>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#abme">About Me</a></li>
+        <li><a href="#skill-resume">Skills/Resume</a></li>
+        <li><a href="#contact">Contact Me</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+
+
+  <section id="home" class="home">
+    <div class="img-wrapper">
+      <div class="border"></div>
+      <img src="pics/look.jpg" >
+    </div>
+    
+    <div class="home-content">
+      <h1>Nicolas Cancino</h1>
+      <h3 class="type-animation">I am an aspiring <span>Software Developer</span><span class="type-animation"> |</span></h3>
+        <div class="socials">
+          <a href = "https://www.linkedin.com/in/nicolas-cancino-483932172/" target="_blank"><i class="fa-brands fa-linkedin-in fa-2x"></i></a>
+          <a href = "https://github.com/NickCancino" target="_blank"><i class="fa-brands fa-github"></i></a>
+          <a href = "http://discordapp.com/users/375459389693362176" target="_blank"><i class="fa-brands fa-discord"></i></a>
+        </div>
+    </div>
+  </section>
+
+
+
+
+  <section id="abme" class="abme">
+    <div class="about-content">
+      
+      <div class="abme-text">
+          <h1>About Me...</h1>
+          <p>I'm Nicolas Cancino, an aspiring software engineer who likes to turn my hobbies into real projects through code. I enjoy building and learning 
+            with projects and teaching myself skills outside of classes. I have developed projects like small Pokémon trivia games or this personal website
+            to serve as a portfolio! My goal is to keep improving, create work I enjoy, and eventually land a role in the software engineering field.</p>
+      </div>
+  
+      <img src="pics/IMG_7213.jpg" class="abme-img">
+
+  </div>
+  </section>
+
+  <section id="skill-resume" class="skill-resume">
+    <div class="skills-title"><h1>Skills and Resume</h1></div>
+
+    <div class="skills-container">
+      <div class="skill-item">
+        <i class="fa-brands fa-java"></i>
+        <p>Java</p>
+      </div>
+  
+      <div class="skill-item">
+        <i class="fa-brands fa-python"></i>
+        <p>Python</p>
+      </div>
+  
+      <div class="skill-item">
+        <i class="fa-brands fa-css3-alt"></i>
+        <p>CSS</p>
+      </div>
+  
+      <div class="skill-item">
+        <i class="fa-brands fa-html5"></i>
+        <p>HTML</p>
+      </div>
+      <div class="skill-item">
+        <i class="fa-brands fa-js"></i>
+        <p>JavaScript</p>
+      </div>
+    </div>
+    
+  </div>
+
+    <div class="resume-download">
+      <a href="Nicolas Cancino UPDATE resume.pdf" download>
+          <i class="fa-solid fa-download"></i> Download Resume
+      </a>
+  </div>
+
+   <!-- PROJECTS HEADER -->
+   <div class="projects-title">
+    <h2>Projects</h2>
+  </div>
+
+  <!-- PROJECT CARDS (CSS-ONLY POPUPS) -->
+  <div class="project-grid">
+    
+    <!-- Project 1 -->
+    <a href="#project1" class="project-card">
+      <img src="projpics/pokeproj.JPG">
+      <h3>Pokémon Trivia Game</h3>
+    </a>
+
+    <!-- Project 2 -->
+    <a href="#project2" class="project-card">
+      <img src="projpics/personalweb.JPG">
+      <h3>Personal Portfolio Website</h3>
+    </a>
+
+  </div>
+
+  <!-- MODAL 1 -->
+  <div id="project1" class="project-modal">
+    <div class="project-modal-content">
+      <a href="#" class="modal-close">&times;</a>
+      <h3>Pokémon Trivia Game</h3>
+      <p>A Python trivia game that uses the PokéAPI and gives players hints to guess randomly selected Pokémon from
+        user selected generation.</p>
+    </div>
+  </div>
+
+  <!-- MODAL 2 -->
+  <div id="project2" class="project-modal">
+    <div class="project-modal-content">
+      <a href="#" class="modal-close">&times;</a>
+      <h3>Personal Portfolio Website</h3>
+      <p>The website you are currently on! Built with HTML, CSS, and JavaScript to display my skills, resume, and projects.</p>
+    </div>
+  </div>
+
+  </section>
+
+
+  <section id="contact" class="contact-section">
+
+    <h1>Contact Me</h1>
+  
+    <div class="contact-container">
+  
+      <!-- LEFT SIDE: Contact Info -->
+      <div class="contact-info">
+        <p>If you'd like to reach out, feel free to email me or fill out the form.</p>
+        <p><strong>Email:</strong> <a href="mailto:nicocancino0@gmail.com">nicocancino0@gmail.com</a></p>
+      </div>
+  
+      <!-- RIGHT SIDE: Contact Form -->
+      <form class="contact-form">
+        <input type="text" placeholder="Your Name" required>
+        <input type="email" placeholder="Your Email" required>
+        <textarea placeholder="Your Message" rows="5" required></textarea>
+  
+        <button type="submit">
+          <i class="fa-solid fa-paper-plane"></i> Send Message
+        </button>
+      </form>
+  
+    </div>
+  </section>
+  
+  
+
+  
+</body>
+</html>
