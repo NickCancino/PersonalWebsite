@@ -1,2 +1,2 @@
 # PersonalWebsite
-Personal website I created using HTML, CSS and minimal JavaScript.
+Personal website I created using HTML and CSS.
