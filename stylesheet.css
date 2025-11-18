@@ -423,9 +423,9 @@ span.type-animation{
 
 /* CONTACT SECTION */
 .contact-section {
-    height: 70vh;
-    background-color: #ddd6b8;
-    padding-top: 120px;
+    height: 62vh;
+    background-color: #4f1418;
+    padding-top: 90px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -434,7 +434,9 @@ span.type-animation{
   
   .contact-section h1 {
     font-size: 2.2rem;
-    color: #4f1418;
+    color: #ddd6b8;
+    text-decoration: underline;
+    padding-bottom: 1rem;
   }
   
   .contact-container {
@@ -448,11 +450,14 @@ span.type-animation{
   .contact-info {
     flex: 1;
     font-size: 1.2rem;
-    color: #4f1418;
+    color: #ddd6b8;
+    text-align: center;
+    padding-top: 3rem;
+    
   }
   
   .contact-info a {
-    color: #4f1418;
+    color: #ddd6b8;
     font-weight: bold;
     text-decoration: underline;
   }
@@ -470,7 +475,7 @@ span.type-animation{
     width: 100%;
     padding: 12px;
     border-radius: 8px;
-    border: 2px solid #4f1418;
+    border: 2px solid #bb3935;
     background-color: #f6f0d8;
     font-family: "Stack Sans Headline", sans-serif;
     font-size: 1rem;
@@ -479,7 +484,7 @@ span.type-animation{
   .contact-form input:focus,
   .contact-form textarea:focus {
     outline: none;
-    border-color: #7a232a;
+    border-color: #bb3935;
   }
   
   /* SUBMIT BUTTON */
@@ -489,7 +494,7 @@ span.type-animation{
     justify-content: center;
     gap: 8px;
   
-    background-color: #4f1418;
+    background-color: #bb3935;
     color: white;
     padding: 12px;
     font-size: 1.1rem;
@@ -501,7 +506,7 @@ span.type-animation{
   }
   
   .contact-form button:hover {
-    background-color: #6c1e23;
+    background-color: #eb4f49;
     transform: scale(1.05);
   }
   
