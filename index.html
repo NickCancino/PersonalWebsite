@@ -158,10 +158,16 @@
       </div>
   
       <!-- RIGHT SIDE: Contact Form -->
-      <form class="contact-form">
-        <input type="text" placeholder="Your Name" required>
-        <input type="email" placeholder="Your Email" required>
-        <textarea placeholder="Your Message" rows="5" required></textarea>
+      <form class="contact-form" action="https://formsubmit.co/nicocancino0@gmail.com" method="POST">
+        <!-- FormSubmit configuration -->
+        <input type="hidden" name="_subject" value="New Contact Form Message from Your Website">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_next" value="?success=true#contact">
+        <input type="hidden" name="_template" value="box">
+        
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="email" name="email" placeholder="Your Email" required>
+        <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
   
         <button type="submit">
           <i class="fa-solid fa-paper-plane"></i> Send Message
@@ -171,8 +177,40 @@
     </div>
   </section>
   
-  
 
+  <script>
+    // Show success message if redirected from form submission
+    window.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('success') === 'true') {
+        const form = document.querySelector('.contact-form');
+        let statusDiv = form.querySelector('.form-status');
+        if (!statusDiv) {
+          statusDiv = document.createElement('div');
+          statusDiv.className = 'form-status';
+          statusDiv.style.cssText = 'margin-top: 10px; padding: 12px; border-radius: 8px; text-align: center;';
+          form.appendChild(statusDiv);
+        }
+        statusDiv.style.display = 'block';
+        statusDiv.style.backgroundColor = '#4caf50';
+        statusDiv.style.color = 'white';
+        statusDiv.textContent = '✓ Message sent successfully! I\'ll get back to you soon.';
+        
+        // Clear the success parameter from URL
+        window.history.replaceState({}, document.title, window.location.pathname + '#contact');
+      }
+    });
+
+    // Enhance form submission with loading state
+    document.querySelector('.contact-form').addEventListener('submit', function(event) {
+      const form = this;
+      const button = form.querySelector('button[type="submit"]');
+      
+      // Show loading state
+      button.disabled = true;
+      button.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
+    });
+  </script>
   
 </body>
 </html>
