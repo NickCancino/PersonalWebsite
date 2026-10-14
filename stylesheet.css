@@ -41,11 +41,19 @@ p { text-wrap: pretty; }
 .primary-button { padding: .75rem 1rem; background: var(--ink); color: var(--paper); border-radius: .25rem; text-decoration: none; font-weight: 500; }
 .primary-button:hover { color: var(--paper); background: var(--accent); }
 .secondary-button { font-size: .95rem; }
-.hero-photo { position: relative; width: 100%; height: min(62vh,560px); overflow: visible; display: flex; align-items: center; justify-content: center; animation: heroPhotoIn .8s .25s cubic-bezier(.2,.75,.25,1) both; }
-.hero-photo img { width: auto; height: auto; max-width: 100%; max-height: 100%; object-fit: contain; border-radius: .75rem; box-shadow: 0 14px 35px rgba(23,32,51,.1); animation: photoDrift 7s 1.2s ease-in-out infinite alternate; transition: opacity .32s ease, filter .32s ease; will-change: opacity; }
-.hero-photo img.is-changing { opacity: 0; filter: blur(5px); }
-@keyframes heroPhotoIn { from { opacity: 0; transform: translateX(24px) scale(.98); } to { opacity: 1; transform: none; } }
-@keyframes photoDrift { from { transform: translateY(0); } to { transform: translateY(-6px); } }
+.profile-carousel { min-width: 0; }
+.hero-photo { position: relative; width: 100%; height: min(62vh, 520px); overflow: hidden; isolation: isolate; }
+.hero-photo .profile-slide { position: absolute; left: 50%; top: 50%; width: 74%; height: 88%; max-width: none; object-fit: contain; border-radius: .5rem; opacity: 0; transform: translate(-50%, -50%) scale(.82); filter: blur(6px); }
+.hero-photo .profile-slide[data-photo="0"] { opacity: 1; filter: blur(0); transform: translate(-50%, -50%); z-index: 2; }
+.hero-photo .profile-slide[data-photo="1"] { opacity: .45; transform: translate(22%, -50%) scale(.82); }
+.hero-photo .profile-slide[data-photo="6"] { opacity: .45; transform: translate(-122%, -50%) scale(.82); }
+.carousel-controls { display: flex; justify-content: center; align-items: center; gap: .75rem; margin-top: .75rem; }
+.carousel-controls button { display: grid; place-items: center; min-width: 44px; min-height: 44px; padding: .5rem; border: 1px solid var(--line); border-radius: .25rem; background: transparent; color: var(--ink); }
+.carousel-controls button:hover { background: var(--surface); border-color: var(--muted); }
+.carousel-controls button:disabled { opacity: .5; cursor: default; }
+.carousel-count { min-width: 4ch; color: var(--muted); font-size: .8rem; font-variant-numeric: tabular-nums; text-align: center; }
+.carousel-controls .carousel-pause { border-color: transparent; font-size: .8rem; min-width: 58px; }
+.carousel-controls [hidden] { display: none; }
 .intro, .work, .skills, .contact { border-top: 1px solid var(--line); }
 .intro-grid { display: grid; grid-template-columns: .65fr 1.35fr; gap: 5rem; }
 .about-photo { width: 200px; height: 150px; object-fit: cover; border-radius: .25rem; margin-top: 2rem; }
@@ -140,14 +148,4 @@ footer { border-top: 1px solid var(--line); padding-block: 1.5rem; display: flex
   html { scroll-behavior: auto; }
   a, button { transition: none; }
   .hero-photo, .hero-photo img { animation: none; transition: none; }
-}
-
-/* Three-photo carousel: sharp center, quiet previews at either edge. */
-.hero-photo { overflow: hidden; isolation: isolate; }
-.hero-photo .profile-main { position: relative; z-index: 2; max-width: 74%; }
-.hero-photo .profile-side { position: absolute; z-index: 0; top: 9%; width: 70%; height: 82%; max-height: 82%; object-fit: contain; filter: blur(5px); opacity: .5; box-shadow: none; animation: none; pointer-events: none; }
-.hero-photo .profile-side-left { left: -30%; }
-.hero-photo .profile-side-right { right: -30%; }
-@media (max-width: 520px) {
-  .hero-photo .profile-side { filter: blur(4px); }
 }

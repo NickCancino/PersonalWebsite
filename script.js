@@ -14,40 +14,125 @@ document.querySelectorAll('[data-stack]').forEach(button=>button.addEventListene
   dialog.showModal();
 }));
 
-const profileImage=document.querySelector('[data-profile-shuffle]');
-const profilePhotos=[
-  {src:'assets/profile/1.JPG',position:'45% 68%'},
-  {src:'assets/profile/2.JPG',position:'50% 58%'},
-  {src:'assets/profile/3.JPG',position:'84% 53%'},
-  {src:'assets/profile/4.JPG',position:'83% 48%'},
-  {src:'assets/profile/5.JPG',position:'17% 45%'},
-  {src:'assets/profile/6.jpeg',position:'78% 48%'},
-  {src:'assets/profile/7.JPG',position:'36% 48%'}
-];
-profilePhotos.slice(1).forEach(photo=>{const image=new Image();image.src=photo.src});
-const leftPhoto=document.querySelector('.profile-side-left');
-const rightPhoto=document.querySelector('.profile-side-right');
-let currentPhoto=0, previousPhoto=profilePhotos.length-1, nextPhoto=1;
-function showPhoto(image,index){
-  image.src=profilePhotos[index].src;
-  image.style.objectPosition=profilePhotos[index].position;
+// Keep each image mounted so the previews physically move into the center.
+const carousel = document.querySelector('.profile-carousel');
+const slides = [...carousel.querySelectorAll('.profile-slide')];
+const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+const pauseButton = carousel.querySelector('[data-carousel="pause"]');
+const status = carousel.querySelector('[data-carousel-status]');
+const count = carousel.querySelector('.carousel-count');
+let currentPhoto = 0;
+let paused = false;
+let busy = false;
+let timer;
+let transition;
+
+function relativeSlot(index) {
+  let slot = (index - currentPhoto + slides.length) % slides.length;
+  if (slot > slides.length / 2) slot -= slides.length;
+  return slot;
 }
-function updateProfilePhotos(){
-  showPhoto(leftPhoto,previousPhoto);
-  showPhoto(profileImage,currentPhoto);
-  showPhoto(rightPhoto,nextPhoto);
+
+function photoState(slot) {
+  return {
+    x: 0,
+    y: 0,
+    xPercent: -50 + slot * 72,
+    yPercent: -50,
+    scale: slot === 0 ? 1 : .82,
+    opacity: slot === 0 ? 1 : Math.abs(slot) === 1 ? .45 : 0,
+    filter: slot === 0 ? 'blur(0px)' : 'blur(6px)'
+  };
 }
-updateProfilePhotos();
-if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-  window.setInterval(()=>{
-    profileImage.classList.add('is-changing');
-    window.setTimeout(()=>{
-      previousPhoto=currentPhoto;
-      currentPhoto=nextPhoto;
-      const choices=profilePhotos.map((_,index)=>index).filter(index=>index!==currentPhoto&&index!==previousPhoto);
-      nextPhoto=choices[Math.floor(Math.random()*choices.length)];
-      updateProfilePhotos();
-      profileImage.classList.remove('is-changing');
-    },320);
-  },5200);
+
+function setPhotoState(slide, slot) {
+  const state = photoState(slot);
+  if (window.gsap) {
+    gsap.set(slide, state);
+  } else {
+    slide.style.transform = `translate(${state.xPercent}%, -50%) scale(${state.scale})`;
+    slide.style.opacity = state.opacity;
+    slide.style.filter = state.filter;
+  }
+  slide.style.zIndex = slot === 0 ? '2' : '1';
 }
+
+function updatePhotoLabels(announce = false) {
+  slides.forEach((slide, index) => {
+    const active = index === currentPhoto;
+    slide.alt = active ? `Nicolas Cancino and friends — photo ${index + 1} of ${slides.length}` : '';
+    slide.setAttribute('aria-hidden', String(!active));
+  });
+  count.textContent = `${currentPhoto + 1} / ${slides.length}`;
+  // Automatic rotation stays quiet for screen readers.
+  if (announce) status.textContent = `Photo ${currentPhoto + 1} of ${slides.length}`;
+}
+
+function schedulePhoto() {
+  window.clearTimeout(timer);
+  if (paused || busy || motionPreference.matches || document.hidden ||
+      carousel.matches(':hover') || carousel.contains(document.activeElement)) return;
+  timer = window.setTimeout(() => advancePhoto(1), 5200);
+}
+
+async function advancePhoto(direction, announce = false) {
+  if (busy) return;
+  window.clearTimeout(timer);
+  busy = true;
+  const next = (currentPhoto + direction + slides.length) % slides.length;
+  const incoming = slides[next];
+  // Decode before motion starts, so a slow image cannot leave an empty center.
+  incoming.loading = 'eager';
+  try {
+    await incoming.decode();
+  } catch {
+    busy = false;
+    schedulePhoto();
+    return;
+  }
+  const oldSlots = slides.map((_, index) => relativeSlot(index));
+  currentPhoto = next;
+  const complete = () => {
+    busy = false;
+    updatePhotoLabels(announce);
+    schedulePhoto();
+  };
+  if (motionPreference.matches || !window.gsap) {
+    slides.forEach((slide, index) => setPhotoState(slide, relativeSlot(index)));
+    complete();
+    return;
+  }
+  transition = gsap.timeline({ onComplete: complete });
+  slides.forEach((slide, index) => {
+    const slot = relativeSlot(index);
+    // Wrap only invisible slides, beyond the clipped viewport.
+    if (Math.abs(slot - oldSlots[index]) > 1) setPhotoState(slide, slot + direction);
+    slide.style.zIndex = slot === 0 ? '2' : '1';
+    transition.to(slide, { ...photoState(slot), duration: 1.1, ease: 'power3.inOut' }, 0);
+  });
+}
+
+carousel.querySelector('[data-carousel="previous"]').addEventListener('click', () => advancePhoto(-1, true));
+carousel.querySelector('[data-carousel="next"]').addEventListener('click', () => advancePhoto(1, true));
+pauseButton.addEventListener('click', () => {
+  paused = !paused;
+  pauseButton.textContent = paused ? 'Play' : 'Pause';
+  schedulePhoto();
+});
+carousel.addEventListener('pointerenter', () => window.clearTimeout(timer));
+carousel.addEventListener('pointerleave', schedulePhoto);
+carousel.addEventListener('focusin', () => window.clearTimeout(timer));
+carousel.addEventListener('focusout', () => window.setTimeout(schedulePhoto, 0));
+document.addEventListener('visibilitychange', schedulePhoto);
+motionPreference.addEventListener('change', () => {
+  transition?.kill();
+  busy = false;
+  slides.forEach((slide, index) => setPhotoState(slide, relativeSlot(index)));
+  pauseButton.hidden = motionPreference.matches;
+  updatePhotoLabels();
+  schedulePhoto();
+});
+slides.forEach((slide, index) => setPhotoState(slide, relativeSlot(index)));
+pauseButton.hidden = motionPreference.matches;
+updatePhotoLabels();
+schedulePhoto();
