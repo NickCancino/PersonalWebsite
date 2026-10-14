@@ -141,3 +141,13 @@ footer { border-top: 1px solid var(--line); padding-block: 1.5rem; display: flex
   a, button { transition: none; }
   .hero-photo, .hero-photo img { animation: none; transition: none; }
 }
+
+/* Three-photo carousel: sharp center, quiet previews at either edge. */
+.hero-photo { overflow: hidden; isolation: isolate; }
+.hero-photo .profile-main { position: relative; z-index: 2; max-width: 74%; }
+.hero-photo .profile-side { position: absolute; z-index: 0; top: 9%; width: 70%; height: 82%; max-height: 82%; object-fit: contain; filter: blur(5px); opacity: .5; box-shadow: none; animation: none; pointer-events: none; }
+.hero-photo .profile-side-left { left: -30%; }
+.hero-photo .profile-side-right { right: -30%; }
+@media (max-width: 520px) {
+  .hero-photo .profile-side { filter: blur(4px); }
+}

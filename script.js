@@ -25,17 +25,28 @@ const profilePhotos=[
   {src:'assets/profile/7.JPG',position:'36% 48%'}
 ];
 profilePhotos.slice(1).forEach(photo=>{const image=new Image();image.src=photo.src});
-profileImage.style.objectPosition=profilePhotos[0].position;
+const leftPhoto=document.querySelector('.profile-side-left');
+const rightPhoto=document.querySelector('.profile-side-right');
+let currentPhoto=0, previousPhoto=profilePhotos.length-1, nextPhoto=1;
+function showPhoto(image,index){
+  image.src=profilePhotos[index].src;
+  image.style.objectPosition=profilePhotos[index].position;
+}
+function updateProfilePhotos(){
+  showPhoto(leftPhoto,previousPhoto);
+  showPhoto(profileImage,currentPhoto);
+  showPhoto(rightPhoto,nextPhoto);
+}
+updateProfilePhotos();
 if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-  let currentPhoto=0;
   window.setInterval(()=>{
-    let nextPhoto=currentPhoto;
-    while(nextPhoto===currentPhoto) nextPhoto=Math.floor(Math.random()*profilePhotos.length);
     profileImage.classList.add('is-changing');
     window.setTimeout(()=>{
+      previousPhoto=currentPhoto;
       currentPhoto=nextPhoto;
-      profileImage.src=profilePhotos[currentPhoto].src;
-      profileImage.style.objectPosition=profilePhotos[currentPhoto].position;
+      const choices=profilePhotos.map((_,index)=>index).filter(index=>index!==currentPhoto&&index!==previousPhoto);
+      nextPhoto=choices[Math.floor(Math.random()*choices.length)];
+      updateProfilePhotos();
       profileImage.classList.remove('is-changing');
     },320);
   },5200);
