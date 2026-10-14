@@ -4,7 +4,7 @@
   --muted: #626b64;
   --line: #dedfd8;
   --surface: #eeeee8;
-  --accent: #3f624c;
+  --accent: #243029;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -43,7 +43,7 @@ p { text-wrap: pretty; }
 .secondary-button { font-size: .95rem; }
 .intro, .work, .skills, .contact { border-top: 1px solid var(--line); }
 .intro-grid { display: grid; grid-template-columns: .65fr 1.35fr; gap: 5rem; }
-.about-photo { width: 200px; height: 150px; object-fit: cover; border-radius: .25rem; margin-top: 2rem; }
+.about-photo { width: 240px; height: 180px; object-fit: cover; border-radius: .25rem; margin-top: 2rem; }
 .intro-copy { max-width: 65ch; }
 .intro-copy p { margin: 0 0 1.25rem; color: var(--muted); font-size: 1.05rem; }
 .text-link { font-size: .95rem; }
@@ -169,3 +169,16 @@ p { text-wrap: pretty; }
 .project[id] { scroll-margin-top: 2rem; }
 @media (max-width: 850px) { .portfolio-footer { width: calc(100% - 3rem); } .footer-grid { grid-template-columns: 1fr; gap: 3rem; } }
 @media (max-width: 520px) { .portfolio-footer { width: calc(100% - 2.5rem); padding: 3rem 1rem; } .footer-links-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 2.5rem; column-gap: 1rem; } }
+
+/* Keep the call to action below the moving photos and close to the divider. */
+.hero.section-pad { padding-bottom: 2rem; }
+.hero-actions-below { justify-content: center; margin-top: 1.5rem; }
+.primary-button { background: var(--accent); }
+.primary-button:hover { background: color-mix(in srgb, var(--accent), white 12%); }
+.secondary-button, .text-link, .header-cta, .project-link, .stack-button { color: var(--accent); }
+.header-cta { border-color: var(--accent); }
+.portfolio-footer { background: var(--accent); color: var(--paper); border-color: var(--accent); }
+.footer-brand p, .footer-links-grid a { color: #e0e3d9; }
+.footer-brand-link:hover, .footer-links-grid a:hover { color: #fff; }
+.portfolio-footer :focus-visible { outline-color: var(--paper); }
+.footer-highlight { background: rgba(248,247,243,.4); }
