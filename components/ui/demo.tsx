@@ -1,20 +1,10 @@
-import { TiltedGridHero } from './tilted-grid-hero';
-
-const photos = [1, 2, 3, 4, 5, 6, 7].map(index => ({
-  src: `/assets/profile/${index}.${index === 6 ? 'jpeg' : 'JPG'}`,
-  alt: 'Nicolas Cancino and friends',
-}));
-
+import type { CSSProperties } from 'react';
+const photos = [1,2,3,4,5,6,7].map(n => `/assets/profile/${n}.${n===6?'jpeg':'JPG'}`);
 export function PortfolioHero() {
-  return <>
-  <TiltedGridHero images={photos} className="tilted-hero" speed={4.5} tileHeight={38} aspectRatio={1.4} gap={10} axis={69} curve={70} fade={10}>
-    <div className="hero-content">
-      <div className="hero-title"><p className="eyebrow">Software developer · Miami, FL</p><h1>Hi, I’m Nicolas.</h1><p>I study computer science at FIU and build tools for schools, games, and collectors.</p></div>
-
-    </div>
-  </TiltedGridHero>
-      <div className="hero-actions hero-actions-below"><a className="primary-button" href="#work">View my projects <span aria-hidden="true">↓</span></a><a className="secondary-button" href="/CS resume.pdf" target="_blank" rel="noreferrer">View résumé ↗</a></div>
-  </>;
+ return <div className="directory-hero">
+ <div className="directory-identity"><h1><span>Nicolas</span> <span>Cancino</span></h1><p>Software developer in Miami.</p><nav aria-label="Quick links"><a href="#experience">Experience</a><a href="#work">Projects</a><a href="/CS resume.pdf" target="_blank" rel="noreferrer">Résumé ↗</a></nav></div>
+ <div className="mini-carousel" aria-label="Photos of Nicolas and friends">
+ {photos.map((src,index)=><img key={src} src={src} alt={index===0?'Nicolas and friends':''} aria-hidden={index!==0} style={{'--photo-delay':`${index*4-1}s`} as CSSProperties}/>)}
+ </div></div>;
 }
-
 export default PortfolioHero;
