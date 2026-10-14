@@ -13,3 +13,32 @@ document.querySelectorAll('[data-stack]').forEach(button=>button.addEventListene
   dialogContent.innerHTML=`<div class="dialog-body stack-dialog-body"><p class="section-label">Development Stack</p><h2>${stack.title}</h2><div class="stack-list">${stack.items.map(item=>`<span>${item}</span>`).join('')}</div></div>`;
   dialog.showModal();
 }));
+
+// Project tabs support keyboard navigation and existing footer deep links.
+const projectTabs = [...document.querySelectorAll('.project-tabs [role="tab"]')];
+function selectProject(tab, focus = false) {
+  projectTabs.forEach(item => {
+    const selected = item === tab;
+    item.setAttribute('aria-selected', String(selected));
+    item.tabIndex = selected ? 0 : -1;
+    document.getElementById(item.getAttribute('aria-controls')).hidden = !selected;
+  });
+  if (focus) tab.focus();
+}
+projectTabs.forEach((tab, index) => {
+  tab.addEventListener('click', () => selectProject(tab));
+  tab.addEventListener('keydown', event => {
+    let next;
+    if (event.key === 'ArrowRight') next = (index + 1) % projectTabs.length;
+    if (event.key === 'ArrowLeft') next = (index - 1 + projectTabs.length) % projectTabs.length;
+    if (event.key === 'Home') next = 0;
+    if (event.key === 'End') next = projectTabs.length - 1;
+    if (next !== undefined) { event.preventDefault(); selectProject(projectTabs[next], true); }
+  });
+});
+function openLinkedProject() {
+  const tab = projectTabs.find(item => '#' + item.getAttribute('aria-controls') === location.hash);
+  if (tab) { selectProject(tab); document.getElementById(tab.getAttribute('aria-controls')).scrollIntoView({block: 'start'}); }
+}
+window.addEventListener('hashchange', openLinkedProject);
+openLinkedProject();
