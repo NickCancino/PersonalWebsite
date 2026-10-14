@@ -1,20 +1,24 @@
-import { TiltedGridHero } from './tilted-grid-hero';
-
-const photos = [1, 2, 3, 4, 5, 6, 7].map(index => ({
-  src: `/assets/profile/${index}.${index === 6 ? 'jpeg' : 'JPG'}`,
-  alt: 'Nicolas Cancino and friends',
-}));
-
+import type { CSSProperties } from 'react';
+const letters = [
+ ['10001','11001','11001','10101','10011','10011','10001'],
+ ['11111','00100','00100','00100','00100','00100','11111'],
+ ['01111','10000','10000','10000','10000','10000','01111'],
+ ['01110','10001','10001','10001','10001','10001','01110'],
+ ['10000','10000','10000','10000','10000','10000','11111'],
+ ['01110','10001','10001','11111','10001','10001','10001'],
+ ['01111','10000','10000','01110','00001','00001','11110'],
+];
 export function PortfolioHero() {
-  return <>
-  <TiltedGridHero images={photos} className="tilted-hero" speed={4.5} tileHeight={38} aspectRatio={1.4} gap={10} axis={69} curve={70} fade={10}>
-    <div className="hero-content">
-      <div className="hero-title"><p className="eyebrow">Software developer · Miami, FL</p><h1>Hi, I’m Nicolas.</h1><p>I study computer science at FIU and build tools for schools, games, and collectors.</p></div>
-
-    </div>
-  </TiltedGridHero>
-      <div className="hero-actions hero-actions-below"><a className="primary-button" href="#work">View my projects <span aria-hidden="true">↓</span></a><a className="secondary-button" href="/CS resume.pdf" target="_blank" rel="noreferrer">View résumé ↗</a></div>
-  </>;
+ return <div className="quiet-hero">
+  <svg className="name-graphic" viewBox="0 0 213 45" aria-hidden="true">
+   {letters.flatMap((letter,l) => letter.flatMap((row,y) => [...row].flatMap((pixel,x) => pixel === '1' ? [
+    <circle key={`${l}-${x}-${y}`} cx={6+l*30+x*5} cy={7+y*5} r="1.65"
+     style={{'--delay': `${(l*7+x+y)*.018}s`, '--dx': `${(x-2)*8}px`, '--dy': `${(y-3)*6}px`} as CSSProperties}/>
+   ] : [])))}
+  </svg>
+  <h1>Nicolas Cancino</h1>
+  <p>Software developer in Miami.<br/>Computer science at FIU, graduating May 2028.</p>
+  <div className="hero-actions"><a className="primary-button" href="#work">Explore my work <span aria-hidden="true">↗</span></a><a className="secondary-button" href="/CS resume.pdf" target="_blank" rel="noreferrer">Résumé ↗</a></div>
+ </div>;
 }
-
 export default PortfolioHero;
