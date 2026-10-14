@@ -1,36 +1,28 @@
-# PersonalWebsite
-Personal website I created using HTML and CSS.
+# Nicolas Cancino — Portfolio
 
-Personal Portfolio Website — Nicolas Cancino
+A responsive portfolio with React and TypeScript components for the curved photo hero and contact footer. The rest of the page retains its HTML, CSS, project dialogs, and navigation.
 
-Welcome to my personal portfolio website!  
-This site was designed and developed to showcase my skills, projects, experience, and contact information as I work toward becoming a software engineer.
+## Development
 
-You can visit the live site here: https://nicolascancino.vercel.app/
+Requires Node.js 20.19+ or 22.12+.
 
+```sh
+npm ci
+npm run dev
+```
 
+`npm run build` checks TypeScript and builds the site into `dist`. Vercel uses the checked-in build settings in `vercel.json`.
 
-##  About the Website
+## Components and styles
 
-This portfolio highlights:
+- `components/ui/tilted-grid-hero.tsx`: reusable curved image row, with ResizeObserver sizing, automatic image cycling, and reduced-motion support.
+- `components/ui/demo.tsx`: portfolio-specific hero and footer content and photos.
+- `src/main.tsx`: mounts the two React sections.
+- `src/styles.css`: Tailwind and shared theme tokens.
+- `stylesheet.css`: existing portfolio styles and component layouts.
+- `lib/utils.ts`: shadcn-compatible `cn` utility.
+- `public/`: runtime photo, project, and résumé assets.
 
-- **About Me** — A brief introduction to who I am and what I enjoy creating.
-- **Skills** — A list of programming languages and technologies I use, presented with icons and hover effects.
-- **Resume Download** — A quick one-click download button for my resume.
-- **Projects** — A simple project gallery featuring clickable cards.  
-  Clicking a card opens a CSS-only modal with a short description of the project.
-- **Contact Me** — A footer-style section with a contact form and my email.
+The `@/` alias points to the project root. `components/ui` keeps reusable primitives in a predictable place and matches the aliases in `components.json`. React, TypeScript, Tailwind, and the shadcn configuration are already set up; no separate setup steps are needed. Additional shadcn components can be installed with `npx shadcn@latest add <component>`.
 
-The website is fully responsive and adapts to various screen sizes, including desktop, tablet, and mobile.
-
----
-
-##  Built With
-
-- **HTML5**
-- **CSS3**
-- **Font Awesome** (for icons)
-- **Google Fonts** (Stack Sans Headline)
-- **Responsive Design Techniques**
-
-This is a static site — no backend or JavaScript is required for the core functionality.
+Both photo rows move automatically without navigation controls. The supplied component pauses its animations for `prefers-reduced-motion: reduce`.
