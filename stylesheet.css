@@ -188,3 +188,10 @@ p { margin:0 0 1rem; text-wrap:pretty; }
  .mini-carousel img { opacity:0; }
  .mini-carousel img:first-child { opacity:1; }
 }
+
+/* A short, optional opening; the portfolio is already mounted underneath. */
+.dotted-intro { position:fixed; inset:0; z-index:100; background:var(--paper); animation:intro-depart .65s cubic-bezier(.4,0,.2,1) 1.95s both; }
+.dotted-intro canvas { width:100%; height:100%; display:block; }
+.intro-skip { position:absolute; bottom:2rem; right:2rem; padding:.5rem; border:0; background:var(--paper); color:var(--ink); font-size:.9rem; }
+@keyframes intro-depart { from {opacity:1;visibility:visible} to {opacity:0;visibility:hidden} }
+@media(prefers-reduced-motion:reduce) { .dotted-intro {display:none;} }
